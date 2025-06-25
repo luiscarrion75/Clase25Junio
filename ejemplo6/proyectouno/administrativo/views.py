@@ -16,11 +16,11 @@ def index(request):
     matriculas = Matricula.objects.all()
     estudiantes = Estudiante.objects.all()
 
-  # Añadir el total de valor de módulos por estudiante
     for estudiante in estudiantes:
-        estudiante.total_modulos = estudiante.modulos.aggregate(
-            total=Sum('valor')
-        )['total'] or 0  # Si no tiene módulos, el total será 0
+        total = 0
+        for modulo in estudiante.modulos.all():
+            total += modulo.valor 
+        estudiante.total_modulos = total  
 
     titulo = "Listado de matriculas"
     titulo2 = "Listado de estudiantes"
